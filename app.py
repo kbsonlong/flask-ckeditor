@@ -23,6 +23,10 @@ Mobility(app)
 @app.route('/')
 @mobile_template('{mobile/}index.html')
 def index(template):
+    if request.MOBILE:
+        print(request.MOBILE)
+    else:
+        print("false")
     return render_template(template)
 
 # @app.route('/')
