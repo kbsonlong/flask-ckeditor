@@ -8,6 +8,8 @@ import urllib
 import datetime
 
 from flask import Flask, request, render_template, url_for, make_response
+from flask.ext.mobility import Mobility
+from flask.ext.mobility.decorators import mobile_template
 
 app = Flask(__name__)
 
@@ -16,10 +18,16 @@ def gen_rnd_filename():
     filename_prefix = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
     return '%s%s' % (filename_prefix, str(random.randrange(1000, 10000)))
 
+Mobility(app)
 
 @app.route('/')
-def index():
-    return render_template('index.html')
+@mobile_template('{mobile/}index.html')
+def index(template):
+    return render_template(template)
+
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
 
 
 @app.route('/ckupload/', methods=['POST', 'OPTIONS'])
@@ -62,4 +70,4 @@ def ckupload():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,threaded=True,port=5001)
