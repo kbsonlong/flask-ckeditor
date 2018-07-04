@@ -20,14 +20,19 @@ def gen_rnd_filename():
 
 Mobility(app)
 
-@app.route('/')
+@app.route('/', methods=['POST','GET'])
 @mobile_template('{mobile/}index.html')
 def index(template):
+    content=""
     if request.MOBILE:
         print(request.MOBILE)
     else:
         print("false")
-    return render_template(template)
+    if request.method == 'POST':
+        content= request.form["content"]
+        print(content)
+
+    return render_template(template,content=content)
 
 # @app.route('/')
 # def index():
